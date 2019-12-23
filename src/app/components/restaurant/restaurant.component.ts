@@ -8,14 +8,14 @@ import { Restaurant } from 'src/app/modules/Restauraunt';
 })
 export class RestaurantComponent implements OnInit {
   @Input() restaurant:Restaurant;
-
+  reviews = [];
   constructor() { }
 
   ngOnInit() {
-    //this.stars = Array(this.restaurant.avgRating);
+
   }
 
-  /*stars() {
-    return Array(this.restaurant.avgRating);
-  }*/
+  loadReviews() {
+    console.log(this.restaurant);
+  }
 }

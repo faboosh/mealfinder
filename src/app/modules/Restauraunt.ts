@@ -1,7 +1,7 @@
 export class Restaurant {
     id:number;
     name:string;
-    avgRating:number;
+    avgrating:number;
     category:string;
     description:string;
     price:number;
