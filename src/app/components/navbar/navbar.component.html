@@ -1,0 +1,14 @@
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <a class="navbar-brand" routerLink="/">Mealfinder</a>
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" 
+            type="search" 
+            placeholder="Search for restaurant" 
+            aria-label="Search" 
+            name="query"
+            [(ngModel)] = "query"
+            (input)="search()"
+        >
+        <a class="btn btn-outline-primary my-2 my-sm-0 text-primary" type="submit" routerLink="/login">Sign in</a>
+    </form>
+</nav>

@@ -1,0 +1,12 @@
+<div class="card">
+    <div class="card-body">
+
+        <span class="d-flex align-content-center">
+            <h5 class="card-title mr-2">{{ restaurant.name }}</h5>
+            <i *ngFor="let item of [].constructor(restaurant.avgRating)" class="fas fa-star pt-1"></i>
+        </span>
+        <h6 class="card-subtitle mb-2 text-muted">{{ restaurant.category }}</h6>
+        <p class="card-text">{{ restaurant.description }}</p>
+        <a href="#" class="card-link">Reviews</a>
+    </div>
+</div>
