@@ -1,14 +1,57 @@
-<nav class="navbar navbar-light bg-light justify-content-between">
-    <a class="navbar-brand" routerLink="/">Mealfinder</a>
+<nav class="navbar navbar-dark bg-dark justify-content-between">
+    <a class="navbar-brand" routerLink="/" (click)="resetSearch()"><i class="fas fa-pizza-slice"></i> Mealfinder</a>
+    <form class="form-inline w-50">
+        <input class="form-control mr-sm-2 w-100" type="search" placeholder="Start typing to search" aria-label="Search"
+            name="query" [(ngModel)]="query" (input)="search()">
+    </form>
     <form class="form-inline">
-        <input class="form-control mr-sm-2" 
-            type="search" 
-            placeholder="Search for restaurant" 
-            aria-label="Search" 
-            name="query"
-            [(ngModel)] = "query"
-            (input)="search()"
-        >
-        <a class="btn btn-outline-primary my-2 my-sm-0 text-primary" type="submit" routerLink="/login">Sign in</a>
+        <span class="text-white" *ngIf="signedIn" id="username" routerLink="/restaurants"><i class="fas fa-pen"></i>
+            Edit restaurants </span>
+        <span class="text-white ml-4" *ngIf="signedIn" id="username" data-toggle="modal" data-target="#exampleModal"><i
+                class="fas fa-user">
+            </i> {{ user.displayname }}</span>
+        <button *ngIf="!signedIn" class="btn btn-success my-2 my-sm-0 ml-4 text-white" routerLink="/login">Log
+            in</button>
+        <button *ngIf="signedIn" class="btn btn-danger my-2 my-sm-0 ml-4 text-white" (click)="logOut()"
+            routerLink="/">Log out</button>
+        <button *ngIf="!signedIn" class="btn btn-primary my-2 my-sm-0 ml-2 text-white"
+            routerLink="/register">Register</button>
     </form>
 </nav>
+<div *ngIf="signedOut" class="alert alert-success alert-dismissible fade show" role="alert">
+    Signed out successfully!
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div *ngIf="user" class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="display-name" class="col-form-label">Display name</label>
+                        <input type="text" class="form-control" id="profile-display-name" name="displayname"
+                            [(ngModel)]="user.displayname">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-email" class="col-form-label">Email</label>
+                        <input class="form-control" id="profile-email" name="email" [(ngModel)]="user.email">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

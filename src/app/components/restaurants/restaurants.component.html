@@ -1,5 +1,17 @@
-<div class="mt-5">
-    <app-restaurant class="list-group-item" *ngFor="let restaurant of restaurants" [restaurant]="restaurant">
-        {{ restaurant.name }}
-    </app-restaurant>
+<div class="mt-2">
+    <div class="row mt-5">
+        <div class="col-8">
+            <h3 class="">{{ title }}</h3>
+        </div>
+        <div class="col-4 mt-2">
+            <p *ngIf="query != ''" class="text-primary text-right" (click)="search('')">Back to top 10</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mb-4" *ngFor="let restaurant of restaurants">
+            <app-restaurant class="list-group-item" [restaurant]="restaurant">
+                {{ restaurant.name }}
+            </app-restaurant>
+        </div>
+    </div>
 </div>

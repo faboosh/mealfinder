@@ -1,12 +1,23 @@
-<div class="card">
-    <div class="card-body">
+<div class="card-body pb-1 pt-1">
+    <span class="d-flex">
+        <h5 class="card-title mr-2 flex-shrink">{{ restaurant.name }}</h5>
+        <div *ngIf="restaurant.avgrating != null" class="flex-fill">
+            <i *ngFor="let item of [].constructor(5); let i = index" [ngClass]="{'fas': true, 'fa-star': true, 'gold': isGold(i)}"></i>
+        </div>
+        <div *ngIf="restaurant.avgrating == null" class="flex-fill">
+            <small>No ratings yet</small>
+        </div>
+    </span>
+    <h6 class="card-subtitle mb-2 text-muted">{{ restaurant.category }}
+        <small *ngIf="restaurant.price != null">
+            <i *ngFor="let item of [].constructor(restaurant.price)" class="fas fa-dollar-sign pt-1"></i>
+        </small>
+    </h6>
 
-        <span class="d-flex align-content-center">
-            <h5 class="card-title mr-2">{{ restaurant.name }}</h5>
-            <i *ngFor="let item of [].constructor(restaurant.avgrating)" class="fas fa-star pt-1"></i>
-        </span>
-        <h6 class="card-subtitle mb-2 text-muted">{{ restaurant.category }}</h6>
-        <p class="card-text">{{ restaurant.description }}</p>
-        <a href="#" class="card-link" (click)="loadReviews()">Reviews</a>
+    <p class="card-text">{{ restaurant.description }}</p>
+    <a class="card-link text-primary" (click)="toggleReviews()">{{ reviewToggleText }}</a>
+    <div class="reviews w-100" *ngIf="expanded">
+        <app-reviews [reloadReviews]="reloadReviewsSubject.asObservable()" [restaurant]="restaurant"></app-reviews>
+        <app-write-review [restaurant]="restaurant" (newReview)="reloadReviews()"></app-write-review>
     </div>
 </div>

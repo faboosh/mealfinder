@@ -8,9 +8,11 @@ import { SearchService } from '../../services/search.service';
   templateUrl: './restaurants.component.html',
   styleUrls: ['./restaurants.component.scss']
 })
+
 export class RestaurantsComponent implements OnInit {
   restaurants: Restaurant[];
-  query:string;
+  title:string = '';
+  query:string = '';
   constructor(private restaurantService:RestaurantService, private searchService: SearchService) { 
 
   }
@@ -20,6 +22,8 @@ export class RestaurantsComponent implements OnInit {
       this.restaurants = restaurants;
     });
 
+    this.title= 'Our top 10 picks';
+
     this.searchService.currentMessage.subscribe(query => {
       console.log(query);
       this.search(query);
@@ -27,9 +31,18 @@ export class RestaurantsComponent implements OnInit {
   }
 
   search(query:string) {
-    this.restaurantService.search(query).subscribe(restaurants=> {
-      this.restaurants = restaurants;
-    });
-  } 
+    this.query = query;
+    if(query != '') {
+      this.restaurantService.search(query).subscribe(restaurants=> {
+        this.restaurants = restaurants;
+      });
 
+      this.title= 'Search results for: ' + query;
+    } else {
+      this.restaurantService.getRestaurants().subscribe(restaurants=> {
+        this.restaurants = restaurants;
+        this.title= 'Our top 10 picks';
+      });
+    }
+  } 
 }

@@ -6,6 +6,8 @@ export class SearchService {
 
   private messageSource = new BehaviorSubject('');
   currentMessage = this.messageSource.asObservable();
+  private categorySource = new BehaviorSubject('');
+  currenctCategory = this.categorySource.asObservable();
 
   constructor() {}
 
@@ -13,4 +15,7 @@ export class SearchService {
     this.messageSource.next(message)
   }
 
+  changeCategory(message:string) {
+    this.categorySource.next(message);
+  }
 }

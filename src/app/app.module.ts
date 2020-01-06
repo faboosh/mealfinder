@@ -11,6 +11,17 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SearchService } from './services/search.service';
+import { RegisterComponent } from './components/register/register.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { CategoryComponent } from './components/category/category.component';
+import { EditRestaurantsComponent } from './components/edit-restaurants/edit-restaurants.component';
+import { EditRestaurantComponent } from './components/edit-restaurant/edit-restaurant.component';
+import { ReviewsComponent } from './components/reviews/reviews.component';
+import { ReviewComponent } from './components/review/review.component';
+import { WriteReviewComponent } from './components/write-review/write-review.component';
+
+import { CanActivateService } from './guards/can-activate.guard';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +30,15 @@ import { SearchService } from './services/search.service';
     RestaurantComponent,
     NavbarComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    CategoriesComponent,
+    CategoryComponent,
+    EditRestaurantsComponent,
+    EditRestaurantComponent,
+    ReviewsComponent,
+    ReviewComponent,
+    WriteReviewComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +46,7 @@ import { SearchService } from './services/search.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [ SearchService ],
+  providers: [ SearchService, AuthService, CanActivateService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

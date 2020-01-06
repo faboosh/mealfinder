@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -6,10 +8,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  email:string = '';
+  password:string = '';
+  failed:boolean = false;
+  loginSubscription;
+  constructor(
+    private auth:AuthService,
+    private router:Router
+  ) { }
+  ngOnInit() {}
 
-  constructor() { }
-
-  ngOnInit() {
+  login() {
+    this.loginSubscription = this.auth.login(this.email, this.password).subscribe(
+      (auth) => {
+        auth ? this.router.navigateByUrl('/') : this.failed = true;
+      }
+    )
   }
 
+  ngOnDestroy() {
+    this.loginSubscription.unsubscribe();
+  }
 }

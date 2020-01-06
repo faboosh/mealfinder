@@ -1,0 +1,4 @@
+<div class="container mt-2">
+    <p *ngIf="reviews.length == 0 || !reviews">No reviews yet</p>
+    <app-review *ngFor="let review of reviews" [review]="review"></app-review>
+</div>

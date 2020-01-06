@@ -1,0 +1,24 @@
+<div class="card review mb-4">
+    <div class="card-title mb-0">
+        <div class="row pl-3">
+            <div>
+                <h4>{{ review.displayname }}</h4>
+            </div>
+        </div>
+        <div class="row pl-3">
+            <div class="ml-1">
+                Rating: <i *ngFor="let item of [].constructor(5); let i = index" [ngClass]="{'fas': true, 'fa-star': true, 'gold': isGold(i)}"></i>
+            </div>  
+            <div class="ml-2">
+                Price: 
+                <small>
+                    <i *ngFor="let item of [].constructor(review.price)" class="fas fa-dollar-sign text-muted"></i>
+                </small>     
+            </div>
+        </div>
+        <hr *ngIf="hasBody()">
+    </div>
+    <div class="card-body p-2" *ngIf="hasBody()">
+        {{ review.body }}
+    </div>
+</div>

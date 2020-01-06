@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Barlow+Condensed:300,400,700&display=swap');
+
+* {
+    font-family: 'Barlow Condensed', sans-serif;
+}
+
+body {
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    //background-image: url("https://lh3.googleusercontent.com/RD3J3fzlQWXEb3WhPvwpnyJg9kH5XOlhsyqWLfmQ4dNaAEhQgIa64_c1lfbkxLIInsu1o8hqARRvqr61jwFhWVF_FLR_rLGncNv_EzbVTH2JK85ORc_pt971Sz820tuOQjk0yLVRdu_fPkHNHzJaxVUQEUAiocS0hfatCHkiZSTpizjQatshxMoVYFfmDW5VJSMM3LVenJhqZoDU9ZBEfeNCS8LcUcnLptiBCzja_hnmoo8Cw5I5MG-KkvCHIE8UzKdC3tfAfEm2vYPZB9GYPHUNaTTAv6eJ7aTcdx52UIxq6CfqH1fGg99-MmLNUnD7_2SVRr7H69MrOmPY76JREHdWY8ZgN3a4PKPxuYRjd_bz6yYPKbjTOGF2-ov7rSDkcQd6u5aUJqFoAEqUZw5C-8iiW7fPse960I61MgoKhyG5n2Dc0B4RiwD7s_YFiuJHT_NTKWUUXvlBg9PzmoQSnlrFcJwsUV0ui3jASoz3NdY6sXy0Zs2Ofva1peSQI8FO43TorVsYMgQG_oJ_4QqOxTeNM5kaIvK3bfVeXdyOrG8r8TxcijF1EvlzkOdn_jtoEbXeCHEnnDmHyWttxnoeh6CPm4hOdXwDzmJYJ1qpFjGBULhKw8dW5GbM1u19E0mGBNg4A8tIaoujIyeI1Xcn5iuAoGzhMyFSSYyipGoygGJXp62aw2Y60tg=w1217-h913-no");
+}
+
+.btn {
+    border-radius: none !important;
+}

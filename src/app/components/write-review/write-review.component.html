@@ -1,0 +1,56 @@
+<div class="row review-btn" [hidden]="expanded" (click)="expand()" *ngIf="enabled">
+    <div class="col">
+        <button class="btn btn-primary btn-block" [hidden]="expanded" (click)="expand()">Write review</button>
+    </div>
+</div>
+<div class="w-100 write-review-container pb-2" *ngIf="enabled" [hidden]="!expanded">
+
+    <form (change)="log()" class="mb-1">
+        <div class="form-group">
+            <p>How much did you enjoy it?</p>
+            <div class="stars mt-n2">
+                <div> 
+                    <i [ngClass]="{'fas': true, 'fa-star': true, 'hover': stars[0]}" (click)="setStars(1)"></i>
+                </div>
+                <div> 
+                    <i [ngClass]="{'fas': true, 'fa-star': true, 'hover': stars[1]}" (click)="setStars(2)"></i>
+                </div>
+                <div>
+                    <i [ngClass]="{'fas': true, 'fa-star': true, 'hover': stars[2]}" (click)="setStars(3)"></i>
+                </div>
+                <div>
+                    <i [ngClass]="{'fas': true, 'fa-star': true, 'hover': stars[3]}" (click)="setStars(4)"></i>
+                </div>
+                <div>
+                    <i [ngClass]="{'fas': true, 'fa-star': true, 'hover': stars[4]}" (click)="setStars(5)"></i>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <p>How expensive was it?</p>
+            <div class="price mt-n2">
+                <div class="dollar">
+                    <i [ngClass]="{'fas': true, 'fa-dollar-sign': true, 'hover': price[0]}" (click)="setPrice(1)"></i>
+                </div>
+                <div class="dollar">
+                    <i [ngClass]="{'fas': true, 'fa-dollar-sign': true, 'hover': price[1]}" (click)="setPrice(2)"></i>
+                </div>
+                <div class="dollar">
+                    <i [ngClass]="{'fas': true, 'fa-dollar-sign': true, 'hover': price[2]}" (click)="setPrice(3)"></i>
+                </div>
+            </div>   
+        </div>
+        <div class="form-group">
+            <textarea name="body" [(ngModel)]="review.body" class="form-control" placeholder="Write your thoughts! (Optional)" value="" rows="5" cols="80">
+            </textarea>
+        </div>
+        <div class="form-group d-flex mb-1">
+            <button class="btn btn-secondary mr-2" (click)="collapse()">Cancel</button>
+            <button class="btn btn-primary" [disabled]="review.rating == 0 || review.price == 0" (click)="submit()">Submit</button>
+        </div>
+    </form>
+</div>
+
+<div class="write-review-container w-100" *ngIf="!enabled">
+    <p><a routerLink="/login">Sign in</a> to write a review</p>
+</div>

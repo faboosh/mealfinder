@@ -1,0 +1,28 @@
+.write-review-container {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  margin-left: -20px;
+  width: calc(100% + 40px) !important;
+  padding: 10px;
+
+  textarea {
+    resize: none;
+  }
+
+  .stars, .price {
+    display: flex;
+
+    .dollar {
+        margin-left: 3px;
+    }
+  }
+}
+
+.review-btn {
+  margin-left: -20px;
+  width: calc(100% + 40px) !important;
+}
+
+.hover {
+  color: rgb(245, 212, 27) !important;
+}
