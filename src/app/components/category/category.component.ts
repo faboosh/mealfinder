@@ -12,7 +12,6 @@ export class CategoryComponent implements OnInit {
   constructor(private searchService:SearchService) { }
 
   ngOnInit() {
-    console.log(this.searchService.currentMessage);
   }
 
   search() {

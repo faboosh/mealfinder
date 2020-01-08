@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchService } from '../../services/search.service';
-import { Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -22,25 +21,18 @@ export class NavbarComponent implements OnInit {
   constructor(private searchService: SearchService, private auth: AuthService) { }
 
   ngOnInit() {
-    console.log(this.searchService.currentMessage);
     this.searchService.currentMessage.subscribe(query => this.query = query);
 
     this.subscriptions.push(
       this.auth.user.subscribe(user => {
-        console.log(user);
         this.user = user;
+        console.log(this.signedIn)
       })
     )
-    this.subscriptions.push(
-      this.auth.signedIn.subscribe(signedIn => {
-        this.signedIn = signedIn;
-        this.signedOut = false;
-        if (signedIn) this.user = JSON.parse(localStorage.getItem('user'));
-        if (!this.user) {
-          this.logOut();
-        }
-      })
-    )
+
+    this.auth.signedIn.subscribe(signedIn => {
+      this.signedIn = signedIn;
+    })
   }
 
   search() {
@@ -52,9 +44,9 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
-    this.user = undefined;
+    this.user = {};
     this.signedOut = true;
-
+    this.signedIn = false;
     this.auth.logout();
   }
 

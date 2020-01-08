@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const con = require('../sql/connect');
+const authMiddleware = require('../auth/middleware');
 
 let debug = false;
 
@@ -10,9 +11,11 @@ con.connect((err) => {
 });
 
 //GET top 10 restaurants
-router.get('/', function (req, res, next) {
+router.get('/', async (req, res, next) => {
+    console.log('user from request');
+    console.log(req.verifiedUser);
     con.query(`SELECT 
-        res.id, res.name, res.category, ROUND(AVG(rev.price)) as price, ROUND(AVG(rev.rating)) as avgrating
+        res.id, res.name, res.category, res.description, ROUND(AVG(rev.price)) as price, ROUND(AVG(rev.rating)) as avgrating
         FROM restaurants res
         LEFT JOIN reviews rev ON
         res.id = rev.restaurant_id
@@ -46,7 +49,7 @@ router.get('/search/:query', function (req, res, next) {
 });
 
 //Gets all restaurants owned by specified user
-router.get('/owner/:id', function (req, res, next) {
+router.get('/owner', authMiddleware, function (req, res, next) {
     if (req.params.query != '') {
         con.query(`SELECT 
         res.id, res.name, res.category, ROUND(AVG(rev.price)) as price, ROUND(AVG(rev.rating)) as avgrating
@@ -54,7 +57,7 @@ router.get('/owner/:id', function (req, res, next) {
         LEFT JOIN reviews rev ON
         res.id = rev.restaurant_id
         WHERE owner = ?
-        GROUP BY res.id ORDER BY avgrating DESC`,[req.params.id], (err, rows) => {
+        GROUP BY res.id ORDER BY avgrating DESC`,[req.verifiedUser.id], (err, rows) => {
             if (err) throw err;
             if(debug) console.log(rows);
             res.json(rows);
@@ -84,8 +87,8 @@ router.delete('/:id', function (req, res, next) {
 });
 
 //Inserts restaurant into DB and returns inserted restaurant to client
-router.post('/', (req, res) => {
-    con.query(`INSERT INTO restaurants (name, category, description, owner) VALUES (${con.escape(req.body.name)},${con.escape(req.body.category)},${con.escape(req.body.description)}, ${con.escape(req.body.owner)})`,
+router.post('/', authMiddleware, (req, res) => {
+    con.query(`INSERT INTO restaurants (name, category, description, owner) VALUES (${con.escape(req.body.name)},${con.escape(req.body.category)},${con.escape(req.body.description)}, ${con.escape(req.verifiedUser.id)})`,
         (err, rows) => {
             if (err) throw err;
             if(debug) console.log(rows);

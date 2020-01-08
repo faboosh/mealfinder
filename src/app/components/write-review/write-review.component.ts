@@ -13,6 +13,7 @@ export class WriteReviewComponent implements OnInit {
   @Input() restaurant:Restaurant;
   @Output() newReview = new EventEmitter<any>();
   signInSubscription;
+  userSubscription;
 
   stars = Array(5).fill(false);
 
@@ -26,7 +27,7 @@ export class WriteReviewComponent implements OnInit {
     for: 0
   }
 
-  user:User
+  user;
 
   enabled:boolean = false;
   expanded:boolean = false;
@@ -34,17 +35,20 @@ export class WriteReviewComponent implements OnInit {
 
   ngOnInit() {
     this.review.for = this.restaurant.id;
-    this.signInSubscription = this.auth.signedIn.subscribe(isSignedIn => {
-      this.enabled = isSignedIn;
-      if(isSignedIn) {
-        this.user = JSON.parse(localStorage.getItem('user'));
+
+    this.userSubscription = this.auth.user.subscribe(user => {
+      this.user = user;
+      if(this.user) {
         this.review.by = this.user.id;
-      } 
-    });
+        this.enabled = true;
+      } else {
+        this.enabled = false;
+      }
+    })
   }
 
   ngOnDestroy() {
-    this.signInSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 
   setStars(rating) {
@@ -82,7 +86,6 @@ export class WriteReviewComponent implements OnInit {
   submit() {
     this.restaurantService.postReview(this.review).subscribe(res => {
       this.newReview.emit();
-      console.log(res);
       this.review.body = '';
       this.stars = Array(5).fill(false);
       this.price = Array(3).fill(false);

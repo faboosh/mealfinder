@@ -15,6 +15,6 @@ export class CanActivateService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     let auth = this.auth.authSnapshot;
     this.auth.changeAuthStatus(auth);
-    return auth;
+    return true;
   }
 }

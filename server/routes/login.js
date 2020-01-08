@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const jwt = require('jsonwebtoken');
 const auth = require('../auth/auth');
+const cors = require('cors');
+
 
 //Authenticates user
 router.post('/', (req, res, next) => {
@@ -10,18 +12,18 @@ router.post('/', (req, res, next) => {
         console.log('User from db ^');
 
         //Token from UID
-        const token = jwt.sign({uid: String(user.id)}, 'kevin fridman was here', {
+        const token = jwt.sign({id: String(user.id)}, 'kevin fridman was here', {
             expiresIn: '2h'
         });
 
-        req.session.token = token;
+        console.log(token);
 
-        console.log(req.session.token);
+        res.cookie('authentication', token, {maxAge: 2 * 3600 * 1000, httpOnly:false});
 
         //Send user
-        res.send({user, token});
+        res.send({user});
     }).catch(err => {
-        res.status(500);
+        res.status(401);
         console.error(err);
     });
 });

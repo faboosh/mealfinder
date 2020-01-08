@@ -9,20 +9,18 @@ import { User } from 'src/app/modules/User';
   styleUrls: ['./edit-restaurants.component.scss']
 })
 export class EditRestaurantsComponent implements OnInit {
-  user:User = JSON.parse(localStorage.getItem('user'));
   restaurants:Restaurant[];
   categories;
   newRestaurant:object = {
     name: '',
     category: '',
-    description: '',
-    owner: this.user.id
+    description: ''
   };
 
   constructor(private restaurantService: RestaurantService) { }
 
   ngOnInit() {
-    this.restaurantService.getByOwner(this.user.id).subscribe(restaurants=> {
+    this.restaurantService.getByOwner().subscribe(restaurants=> {
       this.restaurants = restaurants;
       console.log(restaurants);
     });

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Restaurant } from '../modules/Restauraunt';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
@@ -12,8 +12,18 @@ export class RestaurantService {
   restaurantUrl:string = 'http://localhost:4201/restaurants';
   private restaurantAddedSource = new Subject<any>();
   restaurantAdded$ = this.restaurantAddedSource.asObservable();
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'}),
+    withCredentials: true,
+    observe: 'response' as 'response'
+  };
+  
 
   constructor(private http:HttpClient) { }
+
+  /*ngOnInit() {
+    this.httpOptions.headers.append('Content-Type', 'credentials');
+  }*/
 
   search(query:string):Observable<Restaurant[]> {
     return this.http.get<Restaurant[]>(`${this.restaurantUrl}/search/${query}`);
@@ -27,8 +37,8 @@ export class RestaurantService {
     return this.http.get<Restaurant[]>(`${this.restaurantUrl}/categories`);
   }
 
-  getByOwner(id:number):Observable<Restaurant[]> {
-    return this.http.get<Restaurant[]>(`${this.restaurantUrl}/owner/${id}`);
+  getByOwner():Observable<Restaurant[]> {
+    return this.http.get<Restaurant[]>(`${this.restaurantUrl}/owner`);
   }
 
   deleteRestaurant(id:number):Observable<Restaurant[]> {
@@ -40,11 +50,11 @@ export class RestaurantService {
   }
 
   add(restaurant:object):Observable<any> {
-    return this.http.post<any>(this.restaurantUrl, restaurant);
+    return this.http.post<any>(this.restaurantUrl, restaurant, this.httpOptions);
   }
 
   postReview(review):Observable<any> {
-    return this.http.post<any>(`${this.restaurantUrl}/reviews`, review);
+    return this.http.post<any>(`${this.restaurantUrl}/reviews`, review, this.httpOptions);
   }
 
   getReviews(id:number):Observable<any> {

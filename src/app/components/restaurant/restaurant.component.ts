@@ -15,7 +15,6 @@ export class RestaurantComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
   }
 
   toggleReviews() {

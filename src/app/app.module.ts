@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -22,6 +23,7 @@ import { WriteReviewComponent } from './components/write-review/write-review.com
 
 import { CanActivateService } from './guards/can-activate.guard';
 import { AuthService } from './services/auth.service';
+import { HttpInterceptorService } from './services/http-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,11 @@ import { AuthService } from './services/auth.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [ SearchService, AuthService, CanActivateService ],
+  providers: [ 
+    SearchService, 
+    AuthService, 
+    CanActivateService,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }, ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
