@@ -15,7 +15,7 @@
     </h6>
 
     <p class="card-text">{{ restaurant.description }}</p>
-    <a class="card-link text-primary" (click)="toggleReviews()">{{ reviewToggleText }}</a>
+    <a class="card-link text-primary show-reviews" (click)="toggleReviews()">{{ reviewToggleText }}</a>
     <div class="reviews w-100" *ngIf="expanded">
         <app-reviews [reloadReviews]="reloadReviewsSubject.asObservable()" [restaurant]="restaurant"></app-reviews>
         <app-write-review [restaurant]="restaurant" (newReview)="reloadReviews()"></app-write-review>
