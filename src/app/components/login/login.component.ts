@@ -19,11 +19,9 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   login() {
-    this.loginSubscription = this.auth.login(this.email, this.password).subscribe(
-      (auth) => {
-        auth ? this.router.navigateByUrl('/') : this.failed = true;
-      }
-    )
+    this.loginSubscription = this.auth.login(this.email, this.password).subscribe(user => {
+        user ? this.router.navigateByUrl('/') : this.failed = true;
+    })
   }
 
   ngOnDestroy() {

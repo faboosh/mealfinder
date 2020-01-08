@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Restaurant } from 'src/app/modules/Restauraunt';
 import { RestaurantService } from '../../services/restaurant.service';
-import { User } from 'src/app/modules/User';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-edit-restaurants',
@@ -9,25 +9,32 @@ import { User } from 'src/app/modules/User';
   styleUrls: ['./edit-restaurants.component.scss']
 })
 export class EditRestaurantsComponent implements OnInit {
-  restaurants:Restaurant[];
+  restaurants: Restaurant[];
   categories;
-  newRestaurant:object = {
+  newRestaurant: object = {
     name: '',
     category: '',
     description: ''
   };
 
-  constructor(private restaurantService: RestaurantService) { }
+  subscriptions = [];
+
+  constructor(private restaurantService: RestaurantService, private searchService: SearchService) { }
 
   ngOnInit() {
-    this.restaurantService.getByOwner().subscribe(restaurants=> {
-      this.restaurants = restaurants;
-      console.log(restaurants);
-    });
+    this.subscriptions.push(
+      this.restaurantService.getByOwner().subscribe(restaurants => {
+        this.restaurants = restaurants;
+        console.log(restaurants);
+      })
+    );
 
-    this.restaurantService.getCategories().subscribe(categories => {
-      this.categories = categories;
-    })
+    this.subscriptions.push(
+      this.restaurantService.getCategories().subscribe(categories => {
+        this.categories = categories;
+      })
+    );
+    this.searchService.toggle(false);
   }
 
   log() {
@@ -42,9 +49,16 @@ export class EditRestaurantsComponent implements OnInit {
       this.restaurants.push(restaurant);
       console.log(this.categories);
 
-      if(!this.categories.some(category => category.category == restaurant.category)) {
-        this.categories.push({category: restaurant.category});
+      if (!this.categories.some(category => category.category == restaurant.category)) {
+        this.categories.push({ category: restaurant.category });
       }
     })
+  }
+
+  ngOnDestroy() {
+    this.searchService.toggle(true);
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
   }
 }

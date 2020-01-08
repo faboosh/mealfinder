@@ -1,21 +1,22 @@
 <nav class="navbar navbar-dark bg-dark justify-content-between">
     <a class="navbar-brand" routerLink="/" (click)="resetSearch()"><i class="fas fa-pizza-slice"></i> Mealfinder</a>
     <form class="form-inline w-50">
-        <input class="form-control mr-sm-2 w-100" type="search" placeholder="Start typing to search" aria-label="Search"
-            name="query" [(ngModel)]="query" (input)="search()">
+        <input *ngIf="searchEnabled" class="form-control mr-sm-2 w-100" type="search"
+            placeholder="Start typing to search" aria-label="Search" name="query" [(ngModel)]="query"
+            (input)="search()">
     </form>
     <form class="form-inline">
         <span class="text-white" *ngIf="signedIn" id="username" routerLink="/restaurants"><i class="fas fa-pen"></i>
             Edit restaurants </span>
-        <span class="text-white ml-4" *ngIf="signedIn" id="username" data-toggle="modal" data-target="#exampleModal"><i
-                class="fas fa-user">
+        <span class="text-white ml-4" *ngIf="signedIn" id="username" data-toggle="modal"
+            data-target="#editProfileModal"><i class="fas fa-user">
             </i> {{ user.displayname }}</span>
-        <button *ngIf="!signedIn" class="btn btn-success my-2 my-sm-0 ml-4 text-white" routerLink="/login">Log
+        <button *ngIf="!signedIn" class="btn btn-success my-2 my-sm-0 ml-4 text-white" routerLink="/login"><i
+                class="fas fa-sign-in-alt"></i> Log
             in</button>
         <button *ngIf="signedIn" class="btn btn-danger my-2 my-sm-0 ml-4 text-white" (click)="logOut()"
-            routerLink="/">Log out</button>
-        <button *ngIf="!signedIn" class="btn btn-primary my-2 my-sm-0 ml-2 text-white"
-            routerLink="/register">Register</button>
+            routerLink="/"><i class="fas fa-sign-out-alt"></i> Log out</button>
+        <button *ngIf="!signedIn" class="btn btn-primary my-2 my-sm-0 ml-2 text-white" routerLink="/register"><i class="fas fa-user-plus"></i> Register</button>
     </form>
 </nav>
 <div *ngIf="signedOut" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -25,7 +26,7 @@
     </button>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModal"
     aria-hidden="true">
     <div *ngIf="user" class="modal-dialog" role="document">
         <div class="modal-content">

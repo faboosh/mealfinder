@@ -32,7 +32,7 @@ router.get('/', async (req, res, next) => {
 router.get('/search/:query', function (req, res, next) {
     if (req.params.query != '') {
         con.query(`SELECT 
-        res.id, res.name, res.category, ROUND(AVG(rev.price)) as price, ROUND(AVG(rev.rating)) as avgrating
+        res.id, res.name, res.category, res.description, ROUND(AVG(rev.price)) as price, ROUND(AVG(rev.rating)) as avgrating
         FROM restaurants res
         LEFT JOIN reviews rev ON
         res.id = rev.restaurant_id
@@ -52,7 +52,7 @@ router.get('/search/:query', function (req, res, next) {
 router.get('/owner', authMiddleware, function (req, res, next) {
     if (req.params.query != '') {
         con.query(`SELECT 
-        res.id, res.name, res.category, ROUND(AVG(rev.price)) as price, ROUND(AVG(rev.rating)) as avgrating
+        res.id, res.name, res.category, res.description, ROUND(AVG(rev.price)) as price, ROUND(AVG(rev.rating)) as avgrating
         FROM restaurants res
         LEFT JOIN reviews rev ON
         res.id = rev.restaurant_id
@@ -86,6 +86,15 @@ router.delete('/:id', function (req, res, next) {
     })
 });
 
+//Edits restaurant based on ID
+router.put('/', function (req, res, next) {
+    con.query(`UPDATE restaurants SET name=${con.escape(req.body.name)}, category=${con.escape(req.body.category)}, description=${con.escape(req.body.description)} WHERE id = ${con.escape(req.body.id)}`, (err, rows) => {
+        if (err) throw err;
+        if(debug) console.log(rows);
+        res.json(rows);
+    })
+});
+
 //Inserts restaurant into DB and returns inserted restaurant to client
 router.post('/', authMiddleware, (req, res) => {
     con.query(`INSERT INTO restaurants (name, category, description, owner) VALUES (${con.escape(req.body.name)},${con.escape(req.body.category)},${con.escape(req.body.description)}, ${con.escape(req.verifiedUser.id)})`,
@@ -113,7 +122,7 @@ router.post('/reviews', (req, res) => {
 })
 
 //Gets all reviews for specified restaurant
-router.get('/reviews/:id', (req, res) => {
+router.get('/:id/reviews', (req, res) => {
     con.query(`SELECT 
         u.displayname, rev.rating, rev.price, rev.body 
         FROM reviews rev 

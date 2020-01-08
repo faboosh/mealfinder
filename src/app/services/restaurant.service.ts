@@ -17,13 +17,8 @@ export class RestaurantService {
     withCredentials: true,
     observe: 'response' as 'response'
   };
-  
 
   constructor(private http:HttpClient) { }
-
-  /*ngOnInit() {
-    this.httpOptions.headers.append('Content-Type', 'credentials');
-  }*/
 
   search(query:string):Observable<Restaurant[]> {
     return this.http.get<Restaurant[]>(`${this.restaurantUrl}/search/${query}`);
@@ -41,23 +36,23 @@ export class RestaurantService {
     return this.http.get<Restaurant[]>(`${this.restaurantUrl}/owner`);
   }
 
-  deleteRestaurant(id:number):Observable<Restaurant[]> {
+  delete(id:number):Observable<Restaurant[]> {
     return this.http.delete<Restaurant[]>(`${this.restaurantUrl}/${id}`);
   }
 
-  edit(id:number):Observable<Restaurant[]> {
-    return this.http.delete<Restaurant[]>(`${this.restaurantUrl}/${id}`);
+  edit(restaurant):Observable<Restaurant[]> {
+    return this.http.put<Restaurant[]>(this.restaurantUrl, restaurant);
   }
 
   add(restaurant:object):Observable<any> {
-    return this.http.post<any>(this.restaurantUrl, restaurant, this.httpOptions);
+    return this.http.post<any>(this.restaurantUrl, restaurant);
   }
 
   postReview(review):Observable<any> {
-    return this.http.post<any>(`${this.restaurantUrl}/reviews`, review, this.httpOptions);
+    return this.http.post<any>(`${this.restaurantUrl}/reviews`, review);
   }
 
   getReviews(id:number):Observable<any> {
-    return this.http.get<any>(`${this.restaurantUrl}/reviews/${id}`);    
+    return this.http.get<any>(`${this.restaurantUrl}/${id}/reviews`);    
   }
  }

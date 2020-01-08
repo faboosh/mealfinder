@@ -2,14 +2,15 @@
     <div class="form-group mt-5">
         <h3>Sign up</h3>
         <label for="inputDisplayName">Display name</label>
-        <input type="text" name="displayName" [(ngModel)]="displayName" class="form-control" id="inputDisplayName" aria-describedby="emailHelp"
-            placeholder="Display name">
+        <input type="text" name="displayName" [(ngModel)]="displayName" class="form-control" id="inputDisplayName"
+            aria-describedby="emailHelp" placeholder="Display name">
     </div>
     <div class="form-group">
         <label for="inputEmail1">Email address</label>
-        <input type="email" name="email" [(ngModel)]="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp"
-            placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        <input type="email" name="email" [(ngModel)]="email" (input)="verifyEmail()" class="form-control" id="inputEmail1"
+            aria-describedby="emailHelp" placeholder="Enter email">
+        <small [ngClass]="{'form-text': true, 'text-danger': true, 'hidden': emailValid}">E-mail already in use</small>
+        <small id="emailHelp" [ngClass]="{'form-text': true, 'text-muted': true, 'hidden': !emailValid}">We'll never share your email with anyone else.</small>
     </div>
     <div class="form-group">
         <label for="inputPassword">Password</label>
@@ -22,5 +23,7 @@
             class="form-control" id="inputVerifyPassword" placeholder="Verify password">
         <small id="emailHelp" [ngClass]="{'form-text': true, 'hidden': passwordsMatch}">Passwords do not match</small>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!passwordsMatch || email == '' || displayName == ''" (click)="register()">Submit</button>
+    <button type="submit" class="btn btn-primary"
+        [disabled]="!passwordsMatch || email == '' || displayName == '' || !emailValid"
+        (click)="register()">Submit</button>
 </form>

@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
   private signedInSource = new BehaviorSubject(false);
   signedIn = this.signedInSource.asObservable();
-  private userSource = new BehaviorSubject(localStorage.getItem('user'));
+  private userSource = new BehaviorSubject(undefined);
   user = this.userSource.asObservable();
   authSnapshot: boolean;
   httpOptions = {
@@ -20,25 +20,25 @@ export class AuthService {
   };
 
   constructor(private http: HttpClient) {
+    this.setUser();
   }
 
   login(email: string, password: string): Observable<any> {
     this.httpOptions.headers.append('Content-Type', 'credentials');
-    this.http.post<any>('http://localhost:4201/login', { email, password }, this.httpOptions).subscribe(res => {
+    this.http.post<any>('http://localhost:4201/login', { email, password }, this.httpOptions).subscribe(user => {
       console.log('user signed in');
-      console.log(res);
+      console.log(user);
+      this.setUser();
     })
 
-
-    return this.signedIn;
+    return this.user;
   }
 
   setUser() {
-    let source = this.http.get<any>('http://localhost:4201/user').subscribe(user => {
+    this.http.get<any>('http://localhost:4201/user').subscribe(user => {
       console.log('user from request');
       console.log(user);
       this.userSource.next(user);
-      source.unsubscribe();
     });
   }
 

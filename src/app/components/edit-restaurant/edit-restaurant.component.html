@@ -10,15 +10,16 @@
     </div>
 
     <div class="col-md-4">
-      <button class="btn btn-block btn-success">Edit</button>
+      <button class="btn btn-block btn-success" data-toggle="modal"
+        [attr.data-target]="'#modal-edit-' + restaurant.id">Edit</button>
       <button class="btn btn-block btn-danger" data-toggle="modal"
-        [attr.data-target]="'#modal' + restaurant.id">Delete</button>
+        [attr.data-target]="'#modal-delete-' + restaurant.id">Delete</button>
     </div>
   </div>
 </div>
 
 <!-- Modal -->
-<div *ngIf="!deleted" class="modal fade" [id]="'modal' + restaurant.id" tabindex="-1" role="dialog"
+<div *ngIf="!deleted" class="modal fade" [id]="'modal-delete-' + restaurant.id" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -37,4 +38,48 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="!deleted" class="modal fade" [id]="'modal-edit-' + restaurant.id" tabindex="-1" role="dialog" aria-labelledby="editRestaurant"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit {{ restaurant.name }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (change)="log()">
+                    <div class="form-group">
+                        <p>Name</p>
+                        <input type="text" name="name" class="form-control" placeholder="The name of your restaurant"
+                        [(ngModel)]="editRestaurant.name">
+                    </div>
+                    <div class="form-group">
+                        <p>Choose an existing category...</p>
+                        <select class="form-control" name="category" [(ngModel)]="editRestaurant.category">
+                            <option value="">---</option>
+                            <option *ngFor="let category of categories" [value]="category.category">{{ category.category }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group pl-3">
+                        <p>...or create your own!</p>
+                        <input type="text" name="custom-category" class="form-control" [(ngModel)]="editRestaurant.category"
+                            placeholder="You can enter it here :)">
+                    </div>
+                    <div class="form-group">
+                        <p>Description</p>
+                        <textarea maxlength="250" name="description" [(ngModel)]="editRestaurant.description" class="form-control"
+                            placeholder="Describe your restaurant"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" (click)="edit()">Save</button>
+            </div>
+        </div>
+    </div>
 </div>

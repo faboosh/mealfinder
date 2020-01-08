@@ -11,38 +11,53 @@ import { SearchService } from '../../services/search.service';
 
 export class RestaurantsComponent implements OnInit {
   restaurants: Restaurant[];
-  title:string = '';
-  query:string = '';
-  constructor(private restaurantService:RestaurantService, private searchService: SearchService) { 
+  title: string = '';
+  query: string = '';
+  subscriptions = [];
+  constructor(private restaurantService: RestaurantService, private searchService: SearchService) {
 
   }
 
   ngOnInit() {
-    this.restaurantService.getRestaurants().subscribe(restaurants=> {
-      this.restaurants = restaurants;
-    });
+    this.subscriptions.push(
+      this.restaurantService.getRestaurants().subscribe(restaurants => {
+        this.restaurants = restaurants;
+      })
+    );
 
-    this.title= 'Our top 10 picks';
+    this.title = 'Our top 10 picks';
 
-    this.searchService.currentMessage.subscribe(query => {
-      console.log(query);
-      this.search(query);
-    });
+    this.subscriptions.push(
+      this.searchService.currentMessage.subscribe(query => {
+        console.log(query);
+        this.search(query);
+      })
+    );
   }
 
-  search(query:string) {
+  search(query: string) {
     this.query = query;
-    if(query != '') {
-      this.restaurantService.search(query).subscribe(restaurants=> {
-        this.restaurants = restaurants;
-      });
+    if (query != '') {
+      this.subscriptions.push(
+        this.restaurantService.search(query).subscribe(restaurants => {
+          this.restaurants = restaurants;
+        })
+      );
 
-      this.title= 'Search results for: ' + query;
+      this.title = 'Search results for: ' + query;
     } else {
-      this.restaurantService.getRestaurants().subscribe(restaurants=> {
-        this.restaurants = restaurants;
-        this.title= 'Our top 10 picks';
-      });
+      this.subscriptions.push(
+        this.restaurantService.getRestaurants().subscribe(restaurants => {
+          this.restaurants = restaurants;
+          this.title = 'Our top 10 picks';
+        })
+      );
     }
-  } 
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(item => {
+      item.unsubscribe();
+    })
+  }
 }

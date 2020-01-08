@@ -8,6 +8,8 @@ export class SearchService {
   currentMessage = this.messageSource.asObservable();
   private categorySource = new BehaviorSubject('');
   currenctCategory = this.categorySource.asObservable();
+  private enabledSource = new BehaviorSubject(true);
+  enabled = this.enabledSource.asObservable();
 
   constructor() {}
 
@@ -17,5 +19,9 @@ export class SearchService {
 
   changeCategory(message:string) {
     this.categorySource.next(message);
+  }
+
+  toggle(value:boolean) {
+    this.enabledSource.next(value);
   }
 }

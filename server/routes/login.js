@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 const jwt = require('jsonwebtoken');
 const auth = require('../auth/auth');
-const cors = require('cors');
-
 
 //Authenticates user
 router.post('/', (req, res, next) => {

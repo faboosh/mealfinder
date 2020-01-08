@@ -33,4 +33,9 @@ export class ReviewsComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.reviewObservable.unsubscribe();
+    this.reloadReviewsSubscription.unsubscribe();
+  }
+
 }

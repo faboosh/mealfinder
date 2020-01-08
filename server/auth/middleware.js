@@ -10,8 +10,6 @@ module.exports = async (req, res, next) => {
 
             const user = rows[0];
 
-            console.log(user);
-
             req.verifiedUser = {
                 id: user.id,
                 email: user.email,
@@ -19,9 +17,9 @@ module.exports = async (req, res, next) => {
             };
 
             //Token from UID
-            const newToken = jwt.sign({ id: String(user.id) }, 'kevin fridman was here', {
+            /*const newToken = jwt.sign({ id: String(user.id) }, 'kevin fridman was here', {
                 expiresIn: '2h'
-            });
+            });*/
 
             console.log(token);
 
@@ -31,6 +29,6 @@ module.exports = async (req, res, next) => {
 
         });
     } catch (err) {
-        res.status(401);
+        next();
     }
 }

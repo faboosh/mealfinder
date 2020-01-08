@@ -12,12 +12,12 @@
 
     <div class="row">
         <div class="col-lg-6 col-md-12 mb-4" *ngFor="let restaurant of restaurants">
-            <app-edit-restaurant [restaurant]="restaurant" [user]="user"></app-edit-restaurant>
+            <app-edit-restaurant [restaurant]="restaurant" [categories]="categories" [user]="user"></app-edit-restaurant>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="add-restaurant" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="add-restaurant" tabindex="-1" role="dialog" aria-labelledby="addRestaurant"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
